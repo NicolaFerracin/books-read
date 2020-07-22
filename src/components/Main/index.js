@@ -1,5 +1,7 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import Context from '../../context';
+import Book from '../Book';
 
 export default () => {
   const { year } = useParams();
@@ -9,5 +11,16 @@ export default () => {
     history.push('/');
   }
 
-  return <h1>{year}</h1>;
+  return (
+    <Context.Consumer>
+      {ctx => (
+        <>
+          <h1>{year}</h1>
+          {ctx.books.map(book => (
+            <Book book={book} key={book.id} />
+          ))}
+        </>
+      )}
+    </Context.Consumer>
+  );
 };

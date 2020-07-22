@@ -8,11 +8,7 @@ class App extends Component {
   render() {
     return (
       <Provider>
-        <Context.Consumer>
-          {ctx => {
-            return ctx.isLoggedIn ? <Router /> : <Login />;
-          }}
-        </Context.Consumer>
+        <Context.Consumer>{ctx => (ctx.isLoggedIn ? <Router /> : <Login />)}</Context.Consumer>
       </Provider>
     );
   }

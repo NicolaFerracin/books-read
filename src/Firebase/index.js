@@ -17,7 +17,7 @@ const db = firebase.firestore();
 
 export const onAuthStateChanged = next => firebase.auth().onAuthStateChanged(next);
 
-export const getAllForCollection = collection => db.collection(collection).get();
+export const getAllBooks = () => db.collection('books').get();
 
 export const addDoc = (doc, collection) => db.collection(collection).add(doc);
 
