@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { MONTHS, STATUSES } from '../../utils';
+import { MONTHS, STATUSES, firstToUpperCase } from '../../utils';
 import { addBook } from '../../Firebase';
 
 const BASE_YEAR = 1900;
@@ -90,7 +90,7 @@ class AddBook extends Component {
           <select name="status" defaultValue={STATUSES[0]} ref={this.status}>
             {STATUSES.map(s => (
               <option key={s} value={s}>
-                {s[0].toUpperCase() + s.substr(1)}
+                {firstToUpperCase(s)}
               </option>
             ))}
           </select>
