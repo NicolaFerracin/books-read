@@ -27,7 +27,7 @@ export const updateDoc = (id, doc) => {
   return docRef.update(doc);
 };
 
-export const deleteDoc = id => {
+export const deleteBook = id => {
   return db
     .collection(COLLECTION)
     .doc(id)
