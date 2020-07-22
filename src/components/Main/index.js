@@ -2,6 +2,7 @@ import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import Context from '../../context';
 import Book from '../Book';
+import AddBookButton from '../AddBookButton';
 
 export default () => {
   const { year } = useParams();
@@ -19,6 +20,7 @@ export default () => {
           {ctx.books.map(book => (
             <Book book={book} key={book.id} />
           ))}
+          <AddBookButton />
         </>
       )}
     </Context.Consumer>

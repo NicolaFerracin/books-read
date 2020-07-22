@@ -1,0 +1,19 @@
+.addBook {
+  position: fixed;
+  bottom: 50px;
+  right: 50px;
+  width: 56px;
+  height: 56px;
+  background-color: #ff5722;
+  font-weight: bold;
+  font-size: 50px;
+  color: white;
+  box-shadow: 0px 3px 5px -1px rgba(0, 0, 0, 0.2), 0px 6px 10px 0px rgba(0, 0, 0, 0.14),
+    0px 1px 18px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 50%;
+  border: none;
+
+  &:hover {
+    cursor: pointer;
+  }
+}

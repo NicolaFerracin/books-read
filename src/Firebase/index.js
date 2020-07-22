@@ -13,22 +13,23 @@ const config = {
 
 firebase.initializeApp(config);
 
+const COLLECTION = 'books';
 const db = firebase.firestore();
 
 export const onAuthStateChanged = next => firebase.auth().onAuthStateChanged(next);
 
-export const getAllBooks = () => db.collection('books').get();
+export const getAllBooks = () => db.collection(COLLECTION).get();
 
-export const addDoc = (doc, collection) => db.collection(collection).add(doc);
+export const addBook = book => db.collection(COLLECTION).add(book);
 
-export const updateDoc = (id, doc, collection) => {
-  const docRef = db.collection(collection).doc(id);
+export const updateDoc = (id, doc) => {
+  const docRef = db.collection(COLLECTION).doc(id);
   return docRef.update(doc);
 };
 
-export const deleteDoc = (id, collection) => {
+export const deleteDoc = id => {
   return db
-    .collection(collection)
+    .collection(COLLECTION)
     .doc(id)
     .delete();
 };
