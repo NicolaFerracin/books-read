@@ -38,7 +38,13 @@ export default class Provider extends Component {
 
     const firstYear = Math.min(...Object.keys(booksPerYear).map(Number));
 
-    this.setState({ books, booksPerYear, firstYear });
+    const sortedBooks = books.sort((b1, b2) => {
+      const year1 = b1.startedIn.split('-')[1];
+      const year2 = b2.startedIn.split('-')[1];
+      return year2 - year1;
+    });
+
+    this.setState({ books: sortedBooks, booksPerYear, firstYear });
   };
 
   render() {
