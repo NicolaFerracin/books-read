@@ -1,23 +1,9 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
+import { MONTHS, STATUSES } from '../../utils';
 import { addBook } from '../../Firebase';
 
-const MONTHS = [
-  'January',
-  'February',
-  'March',
-  'April',
-  'May',
-  'June',
-  'July',
-  'August',
-  'September',
-  'October',
-  'November',
-  'December'
-];
-
-const STATUSES = ['started', 'finished', 'unfinished'];
+const BASE_YEAR = 1900;
 
 class AddBook extends Component {
   state = { isPosting: false };
@@ -26,7 +12,8 @@ class AddBook extends Component {
     super(props);
     this.title = React.createRef();
     this.author = React.createRef();
-    this.startedIn = React.createRef();
+    this.startedInMonth = React.createRef();
+    this.startedInYear = React.createRef();
     this.pages = React.createRef();
     this.status = React.createRef();
   }
@@ -37,7 +24,7 @@ class AddBook extends Component {
     const newBook = {
       title: this.title.current.value,
       author: this.author.current.value,
-      startedIn: Number(this.startedIn.current.value),
+      startedIn: `${this.startedInMonth.current.value}-${this.startedInYear.current.value}`,
       pages: Number(this.pages.current.value),
       status: this.status.current.value
     };
@@ -66,12 +53,32 @@ class AddBook extends Component {
         </label>
         <label>
           Started In:
-          <select name="started-in" defaultValue={NOW.getMonth() + 1} ref={this.startedIn} required>
+          <select
+            name="started-in"
+            defaultValue={NOW.getMonth() + 1}
+            ref={this.startedInMonth}
+            required
+          >
             {MONTHS.map((m, idx) => (
               <option key={m} value={idx + 1}>
                 {m}
               </option>
             ))}
+          </select>
+        </label>
+        <label>
+          Year:
+          <select name="year" defaultValue={NOW.getFullYear()} ref={this.startedInYear} required>
+            {Array(NOW.getFullYear() - BASE_YEAR + 1)
+              .fill(1)
+              .map((_, idx) => {
+                const year = BASE_YEAR + idx;
+                return (
+                  <option key={year} value={year}>
+                    {year}
+                  </option>
+                );
+              })}
           </select>
         </label>
         <label>
