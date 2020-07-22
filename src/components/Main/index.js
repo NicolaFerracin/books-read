@@ -12,17 +12,22 @@ export default () => {
     history.push('/');
   }
 
+  const getBooksPerYear = ctx => (year === 'all' ? ctx.books : ctx.booksPerYear[year] || []);
+
   return (
     <Context.Consumer>
-      {ctx => (
-        <>
-          <h1>{year}</h1>
-          {ctx.books.map(book => (
-            <Book book={book} key={book.id} />
-          ))}
-          <AddBookButton />
-        </>
-      )}
+      {ctx => {
+        const books = getBooksPerYear(ctx);
+        return (
+          <>
+            <h1>{year.toUpperCase()}</h1>
+            {books.map(book => (
+              <Book book={book} key={book.id} />
+            ))}
+            <AddBookButton />
+          </>
+        );
+      }}
     </Context.Consumer>
   );
 };
