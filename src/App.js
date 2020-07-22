@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import Login from './components/Login';
 import Provider from './provider';
 import Context from './context';
+import Router from './Router';
 
 class App extends Component {
   render() {
@@ -9,7 +10,7 @@ class App extends Component {
       <Provider>
         <Context.Consumer>
           {ctx => {
-            return ctx.isLoggedIn ? <h1>{ctx.user.displayName}</h1> : <Login />;
+            return ctx.isLoggedIn ? <Router /> : <Login />;
           }}
         </Context.Consumer>
       </Provider>
