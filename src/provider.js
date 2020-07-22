@@ -5,7 +5,8 @@ import { onAuthStateChanged, getAllBooks } from './Firebase';
 export default class Provider extends Component {
   state = {
     isLoggedIn: false,
-    books: []
+    books: [],
+    booksPerYear: {}
   };
 
   constructor(props) {
@@ -24,7 +25,16 @@ export default class Provider extends Component {
     (await getAllBooks()).forEach(entry => {
       books.push({ ...entry.data(), id: entry.id });
     });
-    this.setState({ books });
+    const booksPerYear = books.reduce((booksPerYear, book) => {
+      const year = book.startedIn.split('-')[1];
+      if (booksPerYear[year]) {
+        booksPerYear[year].push(book);
+      } else {
+        booksPerYear[year] = [book];
+      }
+      return booksPerYear;
+    }, {});
+    this.setState({ books, booksPerYear });
   };
 
   render() {
