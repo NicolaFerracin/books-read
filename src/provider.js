@@ -27,8 +27,6 @@ export default class Provider extends Component {
     this.setState({ books });
   };
 
-  getDataForBook = book => ({});
-
   render() {
     return <Context.Provider value={{ ...this.state }}>{this.props.children}</Context.Provider>;
   }
