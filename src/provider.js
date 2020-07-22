@@ -25,6 +25,7 @@ export default class Provider extends Component {
     (await getAllBooks()).forEach(entry => {
       books.push({ ...entry.data(), id: entry.id });
     });
+
     const booksPerYear = books.reduce((booksPerYear, book) => {
       const year = book.startedIn.split('-')[1];
       if (booksPerYear[year]) {
@@ -34,7 +35,10 @@ export default class Provider extends Component {
       }
       return booksPerYear;
     }, {});
-    this.setState({ books, booksPerYear });
+
+    const firstYear = Math.min(...Object.keys(booksPerYear).map(Number));
+
+    this.setState({ books, booksPerYear, firstYear });
   };
 
   render() {

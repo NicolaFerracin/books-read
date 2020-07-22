@@ -13,7 +13,7 @@ export default () => (
           {Object.keys(ctx.booksPerYear)
             .sort((a, b) => b - a)
             .map(year => (
-              <li>
+              <li key={year}>
                 <Link to={`/${year}`}>{year}</Link>
               </li>
             ))}

@@ -3,6 +3,7 @@ import { useParams, useHistory } from 'react-router-dom';
 import Context from '../../context';
 import Book from '../Book';
 import AddBookButton from '../AddBookButton';
+import Stats from '../Stats';
 
 export default () => {
   const { year } = useParams();
@@ -20,7 +21,11 @@ export default () => {
         const books = getBooksPerYear(ctx);
         return (
           <>
-            <h1>{year.toUpperCase()}</h1>
+            <h1>
+              {year[0].toUpperCase()}
+              {year.substr(1)}
+            </h1>
+            <Stats books={books} year={year} firstYear={ctx.firstYear} />
             {books.map(book => (
               <Book book={book} key={book.id} />
             ))}
