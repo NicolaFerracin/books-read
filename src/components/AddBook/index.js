@@ -11,7 +11,7 @@ class AddBook extends Component {
   };
 
   render() {
-    return <BookForm {...this.state} handleSubmit={this.handleSubmit} />;
+    return <BookForm page="add" {...this.state} handleSubmit={this.handleSubmit} />;
   }
 }
 

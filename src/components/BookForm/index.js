@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
 import { MONTHS, STATUSES, capitalize } from '../../utils';
+import styles from './styles.module.scss';
 
 const BASE_YEAR = 1900;
 
@@ -42,62 +43,85 @@ class BookForm extends Component {
   };
 
   render() {
-    const { isPosting, title, author, month, year, pages, status } = this.state;
+    const { page, isPosting, title, author, month, year, pages, status } = this.state;
     const now = new Date();
 
     return (
-      <form onSubmit={this.handleSubmit} disabled>
-        <label>
-          Title:
-          <input type="text" name="title" value={title} onChange={this.handleChange} required />
-        </label>
-        <label>
-          Author:
-          <input type="text" name="author" value={author} onChange={this.handleChange} />
-        </label>
-        <label>
-          Started In:
-          <select name="month" value={month} onChange={this.handleChange} required>
-            {MONTHS.map((m, idx) => (
-              <option key={m} value={idx}>
-                {m}
-              </option>
-            ))}
-          </select>
-        </label>
-        <label>
-          Year:
-          <select name="year" value={year} onChange={this.handleChange} required>
-            {Array(now.getFullYear() - BASE_YEAR + 1)
-              .fill(1)
-              .map((_, idx) => {
-                const year = BASE_YEAR + idx;
-                return (
-                  <option key={year} value={year}>
-                    {year}
+      <>
+        <h1>{capitalize(page)} Book</h1>
+        <form onSubmit={this.handleSubmit} disabled className={styles.form}>
+          <div className={styles.formControl}>
+            <label>
+              Title
+              <input type="text" name="title" value={title} onChange={this.handleChange} required />
+            </label>
+          </div>
+          <div className={styles.formControl}>
+            <label>
+              Author
+              <input type="text" name="author" value={author} onChange={this.handleChange} />
+            </label>
+          </div>
+          <div className={styles.formControl}>
+            <label>
+              Started In Month
+              <select name="month" value={month} onChange={this.handleChange} required>
+                {MONTHS.map((m, idx) => (
+                  <option key={m} value={idx}>
+                    {m}
                   </option>
-                );
-              })}
-          </select>
-        </label>
-        <label>
-          Pages:
-          <input type="number" name="pages" value={pages} onChange={this.handleChange} required />
-        </label>
-        <label>
-          Status:
-          <select name="status" value={status} onChange={this.handleChange}>
-            {STATUSES.map(s => (
-              <option key={s} value={s}>
-                {capitalize(s)}
-              </option>
-            ))}
-          </select>
-        </label>
-        <button type="submit" disabled={isPosting}>
-          Edit Book
-        </button>
-      </form>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className={styles.formControl}>
+            <label>
+              Year
+              <select name="year" value={year} onChange={this.handleChange} required>
+                {Array(now.getFullYear() - BASE_YEAR + 1)
+                  .fill(1)
+                  .map((_, idx) => {
+                    const year = BASE_YEAR + idx;
+                    return (
+                      <option key={year} value={year}>
+                        {year}
+                      </option>
+                    );
+                  })}
+              </select>
+            </label>
+          </div>
+          <div className={styles.formControl}>
+            <label>
+              Pages
+              <input
+                type="number"
+                name="pages"
+                value={pages}
+                onChange={this.handleChange}
+                required
+              />
+            </label>
+          </div>
+          <div className={styles.formControl}>
+            <label>
+              Status
+              <select name="status" value={status} onChange={this.handleChange}>
+                {STATUSES.map(s => (
+                  <option key={s} value={s}>
+                    {capitalize(s)}
+                  </option>
+                ))}
+              </select>
+            </label>
+          </div>
+          <div className={styles.buttonWrapper}>
+            <button type="submit" disabled={isPosting}>
+              {capitalize(page)} Book
+            </button>
+          </div>
+        </form>
+      </>
     );
   }
 }

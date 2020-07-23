@@ -31,7 +31,9 @@ class EditBook extends Component {
   };
 
   render() {
-    return <BookForm key={this.state.id} {...this.state} handleSubmit={this.handleSubmit} />;
+    return (
+      <BookForm key={this.state.id} page="edit" {...this.state} handleSubmit={this.handleSubmit} />
+    );
   }
 }
 
