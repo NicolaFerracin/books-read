@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { withRouter } from 'react-router-dom';
 import { MONTHS, STATUSES, capitalize } from '../../utils';
 import styles from './styles.module.scss';
 
@@ -38,7 +37,7 @@ class BookForm extends Component {
     const success = await this.props.handleSubmit(newBook, id);
     if (success) {
       this.setState({ isPosting: false });
-      this.props.history.push('/');
+      window.location = '/';
     }
   };
 
@@ -126,4 +125,4 @@ class BookForm extends Component {
   }
 }
 
-export default withRouter(BookForm);
+export default BookForm;

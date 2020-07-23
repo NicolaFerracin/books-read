@@ -20,6 +20,7 @@ export default ({ book }) => {
       deleteBook(book.id).catch(err => {
         alert('An error occured while deleting a book.', err);
       });
+      window.location = '/';
     }
   };
 
