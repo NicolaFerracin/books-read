@@ -10,27 +10,31 @@ export default () => {
   return (
     <Context.Consumer>
       {ctx => (
-        <nav className={styles.menu}>
+        <div className={styles.sidebar}>
           <h2>{ctx.user.displayName}'s books</h2>
-          <ul>
-            <li className={`${styles.li} ${pathname === '/all' ? styles.active : ''}`}>
-              <Link to="/all">All Books</Link>
-            </li>
-            {Object.keys(ctx.booksPerYear)
-              .sort((a, b) => b - a)
-              .map(year => (
-                <li
-                  key={year}
-                  className={`${styles.li} ${pathname === `/${year}` ? styles.active : ''}`}
-                >
-                  <Link to={`/${year}`}>{year}</Link>
-                </li>
-              ))}
-          </ul>
-          <button onClick={logout} className={styles.logoutButton}>
-            Logout
-          </button>
-        </nav>
+          <nav className={styles.nav}>
+            <ul>
+              <li className={`${styles.li} ${pathname === '/all' ? styles.active : ''}`}>
+                <Link to="/all">All Books</Link>
+              </li>
+              {Object.keys(ctx.booksPerYear)
+                .sort((a, b) => b - a)
+                .map(year => (
+                  <li
+                    key={year}
+                    className={`${styles.li} ${pathname === `/${year}` ? styles.active : ''}`}
+                  >
+                    <Link to={`/${year}`}>{year}</Link>
+                  </li>
+                ))}
+            </ul>
+          </nav>
+          <div className={styles.footer}>
+            <button onClick={logout} className={styles.logoutButton}>
+              Logout
+            </button>
+          </div>
+        </div>
       )}
     </Context.Consumer>
   );

@@ -1,13 +1,26 @@
-.menu {
+.sidebar {
   height: 100%;
-  width: 240px;
-  display: flex;
-  padding: 16px;
-  flex-direction: column;
   background-color: #ffffff;
   border-right: 1px solid #eeeeee;
+  width: 240px;
   position: fixed;
+  display: flex;
+  flex-direction: column;
+
+  h2 {
+    padding: 16px;
+  }
+}
+
+.nav {
   overflow-y: auto;
+  margin-bottom: 15px;
+  flex-grow: 1;
+}
+
+.ul {
+  overflow-y: scroll;
+  max-height: 100%;
 }
 
 .li {
@@ -29,11 +42,8 @@
 
 .logoutButton {
   background: rgba(229, 57, 53, 0.2);
-  bottom: 32px;
-  position: absolute;
   height: 50px;
   width: 100%;
-  left: 0;
   border: none;
   text-transform: uppercase;
   font-size: 1.4rem;
