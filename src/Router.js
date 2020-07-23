@@ -2,6 +2,7 @@ import React from 'react';
 import { BrowserRouter as Router, Switch, Route, Redirect } from 'react-router-dom';
 import Menu from './components/Menu';
 import AddBook from './components/AddBook';
+import EditBook from './components/EditBook';
 import Main from './components/Main';
 
 export default () => {
@@ -11,6 +12,9 @@ export default () => {
       <Switch>
         <Route path="/add-book">
           <AddBook />
+        </Route>
+        <Route path="/edit-book/:id">
+          <EditBook />
         </Route>
         <Route path="/:year">
           <Main />

@@ -20,11 +20,17 @@ export const onAuthStateChanged = next => firebase.auth().onAuthStateChanged(nex
 
 export const getAllBooks = () => db.collection(COLLECTION).get();
 
+export const getBook = bookId =>
+  db
+    .collection(COLLECTION)
+    .doc(bookId)
+    .get();
+
 export const addBook = book => db.collection(COLLECTION).add(book);
 
-export const updateDoc = (id, doc) => {
+export const editBook = async (id, book) => {
   const docRef = db.collection(COLLECTION).doc(id);
-  return docRef.update(doc);
+  return await docRef.update(book);
 };
 
 export const deleteBook = id => {
