@@ -22,7 +22,7 @@ export default () => {
       {ctx => {
         const books = getBooksPerYear(ctx);
         return (
-          <main className={styles.main}>
+          <main>
             <h1>
               {capitalize(year)} {year === 'all' && 'Books'}
             </h1>
