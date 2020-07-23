@@ -16,7 +16,7 @@ class BookForm extends Component {
       month: props.month || now.getMonth(),
       year: props.year || now.getFullYear(),
       pages: props.pages || '',
-      status: props.status
+      status: props.status || 'started'
     };
   }
 
