@@ -23,7 +23,9 @@ export default () => {
         const books = getBooksPerYear(ctx);
         return (
           <main className={styles.main}>
-            <h1>{capitalize(year)}</h1>
+            <h1>
+              {capitalize(year)} {year === 'all' && 'Books'}
+            </h1>
             <Stats books={books} year={year} firstYear={ctx.firstYear} />
             <div className={styles.books}>
               {books.map(book => (
