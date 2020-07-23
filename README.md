@@ -1,68 +1,68 @@
-This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
+## Books Read
 
-## Available Scripts
+![img](./img.png)
 
-In the project directory, you can run:
+Firebase and React project to keep track of books read, with basic stats.
 
-### `yarn start`
+## How to use
 
-Runs the app in the development mode.<br />
-Open [http://localhost:3000](http://localhost:3000) to view it in the browser.
+The project is configured to run on Firebase (hosting, database and authentication), with Google Auth Provider.
 
-The page will reload if you make edits.<br />
-You will also see any lint errors in the console.
+1. Clone project with `git clone https://github.com/NicolaFerracin/books-read.git`
 
-### `yarn test`
+2. Install dependencies with `yarn`
 
-Launches the test runner in the interactive watch mode.<br />
-See the section about [running tests](https://facebook.github.io/create-react-app/docs/running-tests) for more information.
+3. [Create Firebase project](https://console.firebase.google.com/u/0/)
 
-### `yarn build`
+4. Select "Add Firebase to your web app"
 
-Builds the app for production to the `build` folder.<br />
-It correctly bundles React in production mode and optimizes the build for the best performance.
+5. Put Firebase config into `.env` file
 
-The build is minified and the filenames include the hashes.<br />
-Your app is ready to be deployed!
+```
+REACT_APP_FIREBASE_API_KEY=apiKey
+REACT_APP_FIREBASE_AUTH_DOMAIN=authDomain
+REACT_APP_FIREBASE_DATABASE_URL=databaseURL
+REACT_APP_FIREBASE_PROJECT_ID=projectId
+REACT_APP_FIREBASE_STORAGE_BUCKET=storageBucket
+REACT_APP_FIREBASE_MESSAGING_SENDER_ID=messagingSenderId
+REACT_APP_FIREBASE_APP_ID=appId
+```
 
-See the section about [deployment](https://facebook.github.io/create-react-app/docs/deployment) for more information.
+6. Enable Google identity provider on the Firebase console, in the Authentication section
 
-### `yarn eject`
+7. Create Database on Firebase console. The main collection must be called `books`
 
-**Note: this is a one-way operation. Once you `eject`, you can’t go back!**
+8. (Optional) Test app locally by running `yarn start`
 
-If you aren’t satisfied with the build tool and configuration choices, you can `eject` at any time. This command will remove the single build dependency from your project.
+9. Build the app with `yarn build`
 
-Instead, it will copy all the configuration files and the transitive dependencies (webpack, Babel, ESLint, etc) right into your project so you have full control over them. All of the commands except `eject` will still work, but they will point to the copied scripts so you can tweak them. At this point you’re on your own.
+10. Set up Firebase Hosting on the Firebase console and follow instructions
 
-You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
+11. Init Firebase with `firebase init` (make sure to set `build` as the public directory and to not override `index.html`)
 
-## Learn More
+12. Deploy app to Firebase with `firebase deploy`
 
-You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
+## Secure the app
 
-To learn React, check out the [React documentation](https://reactjs.org/).
+Firebase has a free tier and to avoid going over the limit I suggest you limit access to your database.
 
-### Code Splitting
+1. After creating your account, find your user id (either in the browser console or in the Authentication section on the Firebase console)
+2. Go to the Database section on your Firebase console
+3. Go to Rules and paste the following
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/code-splitting
+```
+rules_version = '2';
+service cloud.firestore {
+  match /databases/{database}/documents {
+    match /{document=**} {
+      allow read: if request.auth.uid == resource.data.uid;
+      allow write: if request.auth.uid == '<your-user-id>';
+    }
+  }
+}
+```
 
-### Analyzing the Bundle Size
+With this:
 
-This section has moved here: https://facebook.github.io/create-react-app/docs/analyzing-the-bundle-size
-
-### Making a Progressive Web App
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/making-a-progressive-web-app
-
-### Advanced Configuration
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/advanced-configuration
-
-### Deployment
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/deployment
-
-### `yarn build` fails to minify
-
-This section has moved here: https://facebook.github.io/create-react-app/docs/troubleshooting#npm-run-build-fails-to-minify
+- reading resources is allowed only to the owner of the resources
+- writing is allowed only to specific user id(s)
