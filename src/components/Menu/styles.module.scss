@@ -26,3 +26,19 @@
     text-decoration: none;
   }
 }
+
+.logoutButton {
+  background: rgba(229, 57, 53, 0.2);
+  bottom: 32px;
+  position: absolute;
+  height: 50px;
+  width: 100%;
+  left: 0;
+  border: none;
+  text-transform: uppercase;
+  font-size: 1.4rem;
+
+  &:hover {
+    background: rgba(229, 57, 53, 0.4);
+  }
+}

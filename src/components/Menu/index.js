@@ -1,5 +1,6 @@
 import React from 'react';
 import { Link, useLocation } from 'react-router-dom';
+import { logout } from '../../Firebase';
 import Context from '../../context';
 import styles from './styles.module.scss';
 
@@ -26,6 +27,9 @@ export default () => {
                 </li>
               ))}
           </ul>
+          <button onClick={logout} className={styles.logoutButton}>
+            Logout
+          </button>
         </nav>
       )}
     </Context.Consumer>

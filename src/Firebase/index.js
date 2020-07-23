@@ -19,6 +19,12 @@ const getUserId = () => firebase.auth().currentUser.uid;
 
 const db = firebase.firestore();
 
+export const logout = () =>
+  firebase
+    .auth()
+    .signOut()
+    .then(() => (window.location = '/'));
+
 export const onAuthStateChanged = next => firebase.auth().onAuthStateChanged(next);
 
 export const getAllBooks = () =>

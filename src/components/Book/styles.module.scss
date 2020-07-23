@@ -57,10 +57,18 @@
 
   button.edit {
     border-right: 1px solid #eee;
+
+    &:hover {
+      background: rgba(0, 0, 0, 0.1);
+    }
   }
 
   button.delete {
     border-right: 1px solid #eee;
     background: rgba(229, 57, 53, 0.2);
+
+    &:hover {
+      background: rgba(229, 57, 53, 0.4);
+    }
   }
 }
