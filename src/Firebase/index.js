@@ -14,11 +14,18 @@ const config = {
 firebase.initializeApp(config);
 
 const COLLECTION = 'books';
+
+const getUserId = () => firebase.auth().currentUser.uid;
+
 const db = firebase.firestore();
 
 export const onAuthStateChanged = next => firebase.auth().onAuthStateChanged(next);
 
-export const getAllBooks = () => db.collection(COLLECTION).get();
+export const getAllBooks = () =>
+  db
+    .collection(COLLECTION)
+    .where('uid', '==', getUserId())
+    .get();
 
 export const getBook = bookId =>
   db
@@ -26,7 +33,11 @@ export const getBook = bookId =>
     .doc(bookId)
     .get();
 
-export const addBook = book => db.collection(COLLECTION).add(book);
+export const addBook = book =>
+  db.collection(COLLECTION).add({
+    ...book,
+    uid: getUserId()
+  });
 
 export const editBook = async (id, book) => {
   const docRef = db.collection(COLLECTION).doc(id);
