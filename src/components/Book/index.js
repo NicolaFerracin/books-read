@@ -17,10 +17,13 @@ export default ({ book }) => {
   const confirmDeleteBook = () => {
     const shouldDelete = window.confirm(`Are you sure you want to delete "${book.title}"`);
     if (shouldDelete) {
-      deleteBook(book.id).catch(err => {
-        alert('An error occured while deleting a book.', err);
-      });
-      window.location = '/';
+      deleteBook(book.id)
+        .catch(err => {
+          alert('An error occured while deleting a book.', err);
+        })
+        .finally(() => {
+          window.location = '/';
+        });
     }
   };
 
