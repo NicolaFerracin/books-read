@@ -5,6 +5,7 @@ import { firstToUpperCase } from '../../utils';
 import Book from '../Book';
 import AddBookButton from '../AddBookButton';
 import Stats from '../Stats';
+import styles from './styles.module.scss';
 
 export default () => {
   const { year } = useParams();
@@ -21,14 +22,14 @@ export default () => {
       {ctx => {
         const books = getBooksPerYear(ctx);
         return (
-          <>
+          <main className={styles.main}>
             <h1>{firstToUpperCase(year)}</h1>
             <Stats books={books} year={year} firstYear={ctx.firstYear} />
             {books.map(book => (
               <Book book={book} key={book.id} />
             ))}
             <AddBookButton />
-          </>
+          </main>
         );
       }}
     </Context.Consumer>

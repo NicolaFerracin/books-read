@@ -1,4 +1,5 @@
 import React from 'react';
+import styles from './styles.module.scss';
 
 const getDaysSinceYearStart = (year, firstYear) => {
   const end = new Date();
@@ -19,10 +20,19 @@ export default ({ books, year, firstYear }) => {
   const pagesRead = finishedBooks.reduce((acc, b) => acc + b.pages, 0);
 
   return (
-    <div>
-      <div>Pages Read: {pagesRead}</div>
-      <div>Pages Per Day: {Math.round(pagesRead / daysSinceYearStart)}</div>
-      <div>Books Read: {finishedBooks.length}</div>
+    <div className={styles.stats}>
+      <div className={styles.box}>
+        <div className={styles.title}>Pages Read</div>
+        <div className={styles.value}>{pagesRead}</div>
+      </div>
+      <div className={styles.box}>
+        <div className={styles.title}>Pages Per Day</div>
+        <div className={styles.value}>{Math.round(pagesRead / daysSinceYearStart)}</div>
+      </div>
+      <div className={styles.box}>
+        <div className={styles.title}>Books Read</div>
+        <div className={styles.value}>{finishedBooks.length}</div>
+      </div>
     </div>
   );
 };
