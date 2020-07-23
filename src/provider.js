@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import Context from './context';
 import { onAuthStateChanged, getAllBooks } from './Firebase';
 
+const sortByDate = (b1, b2) => {
+  const [month1, year1] = b1.startedIn.split('-');
+  const [month2, year2] = b2.startedIn.split('-');
+  return new Date(year2, month2, 1) - new Date(year1, month1, 1);
+};
+
 export default class Provider extends Component {
   state = {
     isLoggedIn: false,
@@ -35,14 +41,13 @@ export default class Provider extends Component {
       }
       return booksPerYear;
     }, {});
+    Object.keys(booksPerYear).forEach(
+      year => (booksPerYear[year] = booksPerYear[year].sort(sortByDate))
+    );
 
     const firstYear = Math.min(...Object.keys(booksPerYear).map(Number));
 
-    const sortedBooks = books.sort((b1, b2) => {
-      const year1 = b1.startedIn.split('-')[1];
-      const year2 = b2.startedIn.split('-')[1];
-      return year2 - year1;
-    });
+    const sortedBooks = books.sort(sortByDate);
 
     this.setState({ books: sortedBooks, booksPerYear, firstYear });
   };
