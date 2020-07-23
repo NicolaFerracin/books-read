@@ -25,9 +25,11 @@ export default () => {
           <main className={styles.main}>
             <h1>{firstToUpperCase(year)}</h1>
             <Stats books={books} year={year} firstYear={ctx.firstYear} />
-            {books.map(book => (
-              <Book book={book} key={book.id} />
-            ))}
+            <div className={styles.books}>
+              {books.map(book => (
+                <Book book={book} key={book.id} />
+              ))}
+            </div>
             <AddBookButton />
           </main>
         );

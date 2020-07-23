@@ -1,10 +1,66 @@
 .book {
-  border: 1px solid black;
-  display: inline-block;
+  box-shadow: 0 0 0 1px rgba(63, 63, 68, 0.05), 0 1px 3px 0 rgba(63, 63, 68, 0.15);
+  border-radius: 4px;
+  color: #263238;
+  transition: box-shadow 300ms cubic-bezier(0.4, 0, 0.2, 1) 0ms;
+  background-color: #ffffff;
 }
 
-button {
-  &:hover {
-    cursor: pointer;
+.content {
+  padding: 12px;
+  position: relative;
+
+  .status {
+    position: absolute;
+    right: 12px;
+    font-size: 35px;
+  }
+
+  .title {
+    font-weight: bold;
+    font-size: 1.5rem;
+  }
+
+  .author {
+    font-size: 1.3rem;
+  }
+
+  .contentFooter {
+    display: flex;
+    justify-content: space-between;
+    height: 40px;
+    align-items: flex-end;
+  }
+
+  .date {
+    text-align: left;
+    font-style: italic;
+  }
+
+  .pages {
+    text-align: right;
+    font-style: italic;
+  }
+}
+
+.actions {
+  border-top: 1px solid #eee;
+  display: flex;
+
+  button {
+    padding: 10px;
+    background: none;
+    border: none;
+    width: 100%;
+    text-transform: uppercase;
+  }
+
+  button.edit {
+    border-right: 1px solid #eee;
+  }
+
+  button.delete {
+    border-right: 1px solid #eee;
+    background: rgba(229, 57, 53, 0.2);
   }
 }

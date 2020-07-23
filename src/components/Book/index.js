@@ -4,6 +4,12 @@ import styles from './styles.module.scss';
 import { deleteBook } from '../../Firebase';
 import { MONTHS } from '../../utils';
 
+const emojis = {
+  started: '📖',
+  finished: '✔️',
+  unfinished: '⭕️'
+};
+
 export default ({ book }) => {
   const history = useHistory();
   const [month, year] = book.startedIn.split('-');
@@ -21,16 +27,24 @@ export default ({ book }) => {
 
   return (
     <div className={styles.book}>
-      <div>{book.title}</div>
-      <div>{book.author}</div>
-      <div>
-        {MONTHS[month]} {year}
+      <div className={styles.content}>
+        <div className={styles.status}>{emojis[book.status]}</div>
+        <div className={styles.title}>{book.title}</div>
+        <div className={styles.author}>by {book.author}</div>
+        <div className={styles.contentFooter}>
+          <div className={styles.date}>
+            {MONTHS[month]} {year}
+          </div>
+          <div className={styles.pages}>{book.pages} pages</div>
+        </div>
       </div>
-      <div>{book.pages}</div>
-      <div>{book.status}</div>
-      <div>
-        <button onClick={pushToEditBook}>EDIT</button>
-        <button onClick={confirmDeleteBook}>DELETE</button>
+      <div className={styles.actions}>
+        <button className={styles.edit} onClick={pushToEditBook}>
+          edit
+        </button>
+        <button className={styles.delete} onClick={confirmDeleteBook}>
+          delete
+        </button>
       </div>
     </div>
   );

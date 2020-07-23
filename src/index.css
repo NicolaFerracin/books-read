@@ -19,3 +19,7 @@ code {
 #root {
   display: flex;
 }
+
+button:hover {
+  cursor: pointer;
+}
