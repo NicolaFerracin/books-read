@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { withRouter } from 'react-router-dom';
-import { MONTHS, STATUSES, firstToUpperCase } from '../../utils';
+import { MONTHS, STATUSES, capitalize } from '../../utils';
 
 const BASE_YEAR = 1900;
 
@@ -89,7 +89,7 @@ class BookForm extends Component {
           <select name="status" value={status} onChange={this.handleChange}>
             {STATUSES.map(s => (
               <option key={s} value={s}>
-                {firstToUpperCase(s)}
+                {capitalize(s)}
               </option>
             ))}
           </select>

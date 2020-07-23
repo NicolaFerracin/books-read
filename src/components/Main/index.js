@@ -1,7 +1,7 @@
 import React from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import Context from '../../context';
-import { firstToUpperCase } from '../../utils';
+import { capitalize } from '../../utils';
 import Book from '../Book';
 import AddBookButton from '../AddBookButton';
 import Stats from '../Stats';
@@ -23,7 +23,7 @@ export default () => {
         const books = getBooksPerYear(ctx);
         return (
           <main className={styles.main}>
-            <h1>{firstToUpperCase(year)}</h1>
+            <h1>{capitalize(year)}</h1>
             <Stats books={books} year={year} firstYear={ctx.firstYear} />
             <div className={styles.books}>
               {books.map(book => (
