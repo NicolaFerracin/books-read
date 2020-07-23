@@ -26,8 +26,8 @@ export default ({ books, year, firstYear }) => {
         <div className={styles.value}>{pagesRead}</div>
       </div>
       <div className={styles.box}>
-        <div className={styles.title}>Pages Per Day ({daysSinceYearStart} days)</div>
-        <div className={styles.value}>{Math.round(pagesRead / daysSinceYearStart)}</div>
+        <div className={styles.title}>Pages Per Day ({daysSinceYearStart || 0} days)</div>
+        <div className={styles.value}>{Math.round(pagesRead / daysSinceYearStart || 0)}</div>
       </div>
       <div className={styles.box}>
         <div className={styles.title}>Books Read</div>
