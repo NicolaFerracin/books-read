@@ -28,7 +28,9 @@ export default ({ book }) => {
   return (
     <div className={styles.book}>
       <div className={styles.content}>
-        <div className={styles.status}>{emojis[book.status]}</div>
+        <div className={styles.status} title={book.status}>
+          {emojis[book.status]}
+        </div>
         <div className={styles.title}>{book.title}</div>
         <div className={styles.author}>by {book.author}</div>
         <div className={styles.contentFooter}>

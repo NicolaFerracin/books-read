@@ -10,6 +10,7 @@ export default () => {
     <Context.Consumer>
       {ctx => (
         <nav className={styles.menu}>
+          <h2>{ctx.user.displayName}'s books</h2>
           <ul>
             <li className={`${styles.li} ${pathname === '/all' ? styles.active : ''}`}>
               <Link to="/all">All Books</Link>
