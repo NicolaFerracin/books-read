@@ -9,11 +9,10 @@ import type { Book } from './types'
 
 export default function App() {
   const { user, loading: authLoading, isLoggedIn } = useAuth()
-  const { books, booksPerYear, years, currentlyReading, loading: booksLoading, add, update, remove } = useBooks(isLoggedIn)
+  const { books, booksPerYear, years, loading: booksLoading, add, update, remove } = useBooks(isLoggedIn)
   const [selectedYear, setSelectedYear] = useState<string>('all')
   const [showForm, setShowForm] = useState(false)
   const [editingBook, setEditingBook] = useState<Book | null>(null)
-  const [rereadBook, setRereadBook] = useState<Book | null>(null)
   const [sidebarOpen, setSidebarOpen] = useState(false)
 
   if (authLoading) {
@@ -35,16 +34,9 @@ export default function App() {
     setShowForm(true)
   }
 
-  const handleReread = (book: Book) => {
-    setRereadBook(book)
-    setEditingBook(null)
-    setShowForm(true)
-  }
-
   const handleCloseForm = () => {
     setShowForm(false)
     setEditingBook(null)
-    setRereadBook(null)
   }
 
   return (
@@ -75,7 +67,6 @@ export default function App() {
         <Dashboard
           books={displayBooks}
           allBooks={books}
-          currentlyReading={currentlyReading}
           selectedYear={selectedYear}
           loading={booksLoading}
           onEdit={handleEdit}

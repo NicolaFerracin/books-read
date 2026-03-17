@@ -1,6 +1,7 @@
 import { useState, useEffect, useRef } from 'react'
 import { useBookSearch } from '../hooks/useBookSearch'
 import { lookupByIsbn } from '../lib/openLibrary'
+import { uploadCover } from '../lib/firebase'
 import StarRating from './StarRating'
 import type { Book, BookFormData, OpenLibraryResult } from '../types'
 
@@ -30,7 +31,6 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
   const [title, setTitle] = useState(book?.title || '')
   const [author, setAuthor] = useState(book?.author || '')
   const [pages, setPages] = useState(book?.pages?.toString() || '')
-  const [currentPage, setCurrentPage] = useState(book?.currentPage?.toString() || '')
   const [status, setStatus] = useState<Book['status']>(book?.status || 'started')
   const [startMonth, setStartMonth] = useState(() => {
     if (book?.startedIn) return Number(book.startedIn.split('-')[0])
@@ -54,11 +54,26 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
   const [isbn, setIsbn] = useState(book?.isbn || '')
   const [saving, setSaving] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
+  const [uploading, setUploading] = useState(false)
+  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const { results, searching, search, clear } = useBookSearch()
   const [showResults, setShowResults] = useState(false)
   const [isbnLooking, setIsbnLooking] = useState(false)
   const isbnTimeout = useRef<ReturnType<typeof setTimeout>>()
+
+  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0]
+    if (!file) return
+    setUploading(true)
+    try {
+      const url = await uploadCover(file)
+      setCoverUrl(url)
+    } catch (err) {
+      console.error('Upload failed:', err)
+    }
+    setUploading(false)
+  }
 
   // Generate year options
   const years: number[] = []
@@ -110,7 +125,6 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
       title: title.trim(),
       author: author.trim(),
       pages: Number(pages),
-      currentPage: currentPage ? Number(currentPage) : undefined,
       status,
       startedIn: `${startMonth}-${startYear}`,
       finishedIn: status === 'finished' ? `${finishMonth}-${finishYear}` : undefined,
@@ -153,12 +167,41 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
         </div>
 
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
-          {/* Cover preview */}
-          {coverUrl && (
-            <div className="flex justify-center">
-              <img src={coverUrl} alt="" className="h-32 rounded-lg shadow-lg" />
+          {/* Cover preview + upload */}
+          <div className="flex items-center gap-4">
+            <div
+              onClick={() => fileInputRef.current?.click()}
+              className="flex-shrink-0 w-20 h-28 rounded-lg overflow-hidden bg-slate-800 cursor-pointer hover:bg-slate-700 transition-colors relative group"
+            >
+              {coverUrl ? (
+                <img src={coverUrl} alt="" className="w-full h-full object-cover" />
+              ) : (
+                <div className="w-full h-full flex flex-col items-center justify-center bg-gradient-to-br from-slate-700 to-slate-800">
+                  <svg className="w-6 h-6 text-slate-500" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.5} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                  </svg>
+                </div>
+              )}
+              {uploading && (
+                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
+                  <div className="w-5 h-5 border-2 border-slate-600 border-t-amber-400 rounded-full animate-spin" />
+                </div>
+              )}
+              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                <span className="text-white text-[10px] font-medium">{coverUrl ? 'Change' : 'Upload'}</span>
+              </div>
             </div>
-          )}
+            <input
+              ref={fileInputRef}
+              type="file"
+              accept="image/*"
+              onChange={handleCoverUpload}
+              className="hidden"
+            />
+            <div className="text-xs text-slate-600">
+              Click to upload a cover image, or fill in the ISBN / title to auto-fetch one.
+            </div>
+          </div>
 
           {/* ISBN lookup */}
           <div className="relative">
@@ -268,22 +311,6 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
               </select>
             </div>
           </div>
-
-          {/* Current page (only for started) */}
-          {status === 'started' && (
-            <div>
-              <label className={labelCls}>Current Page</label>
-              <input
-                type="number"
-                value={currentPage}
-                onChange={(e) => setCurrentPage(e.target.value)}
-                className={inputCls}
-                placeholder="0"
-                min={0}
-                max={Number(pages) || undefined}
-              />
-            </div>
-          )}
 
           {/* Started in */}
           <div>

@@ -43,8 +43,6 @@ export function useBooks(isLoggedIn: boolean) {
     .map(Number)
     .sort((a, b) => b - a)
 
-  const currentlyReading = books.filter((b) => b.status === 'started')
-
   const add = async (data: BookFormData) => {
     await addBook(data)
     await refresh()
@@ -60,5 +58,5 @@ export function useBooks(isLoggedIn: boolean) {
     await refresh()
   }
 
-  return { books, booksPerYear, years, currentlyReading, loading, add, update, remove, refresh }
+  return { books, booksPerYear, years, loading, add, update, remove, refresh }
 }

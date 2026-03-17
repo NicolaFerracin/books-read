@@ -1,14 +1,12 @@
 import { useState, useMemo } from 'react'
 import type { Book } from '../types'
 import Stats from './Stats'
-import CurrentlyReading from './CurrentlyReading'
 import BookCard from './BookCard'
 import SearchFilter from './SearchFilter'
 
 interface Props {
   books: Book[]
   allBooks: Book[]
-  currentlyReading: Book[]
   selectedYear: string
   loading: boolean
   onEdit: (book: Book) => void
@@ -16,7 +14,7 @@ interface Props {
   onAdd: () => void
 }
 
-export default function Dashboard({ books, allBooks, currentlyReading, selectedYear, loading, onEdit, onDelete, onAdd }: Props) {
+export default function Dashboard({ books, allBooks, selectedYear, loading, onEdit, onDelete, onAdd }: Props) {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [sortBy, setSortBy] = useState('date-desc')
@@ -99,14 +97,6 @@ export default function Dashboard({ books, allBooks, currentlyReading, selectedY
 
       {/* Stats */}
       <Stats books={books} selectedYear={selectedYear} />
-
-      {/* Currently Reading (only on "all" or current year) */}
-      {selectedYear === 'all' && currentlyReading.length > 0 && (
-        <CurrentlyReading
-          books={currentlyReading}
-          onEdit={onEdit}
-        />
-      )}
 
       {/* Search & Filter */}
       <SearchFilter

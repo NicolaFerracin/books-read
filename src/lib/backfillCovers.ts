@@ -4,7 +4,7 @@ import { editBook } from './firebase'
 const BATCH_SIZE = 3
 const DELAY_MS = 500
 
-async function fetchCover(book: Book): Promise<string | null> {
+async function fetchCoverOpenLibrary(book: Book): Promise<string | null> {
   const q = encodeURIComponent(`${book.title} ${book.author || ''}`.trim())
   try {
     const res = await fetch(
@@ -12,18 +12,33 @@ async function fetchCover(book: Book): Promise<string | null> {
     )
     const data = await res.json()
     const doc = data.docs?.[0]
-    if (!doc) return null
-
-    if (doc.cover_i) {
+    if (doc?.cover_i) {
       return `https://covers.openlibrary.org/b/id/${doc.cover_i}-M.jpg`
     }
-    if (doc.isbn?.[0]) {
+    if (doc?.isbn?.[0]) {
       return `https://covers.openlibrary.org/b/isbn/${doc.isbn[0]}-M.jpg`
     }
     return null
   } catch {
     return null
   }
+}
+
+async function fetchCoverGoogleBooks(book: Book): Promise<string | null> {
+  const q = encodeURIComponent(`${book.title} ${book.author || ''}`.trim())
+  try {
+    const res = await fetch(`https://www.googleapis.com/books/v1/volumes?q=${q}&maxResults=1`)
+    if (!res.ok) return null
+    const data = await res.json()
+    const thumb = data.items?.[0]?.volumeInfo?.imageLinks?.thumbnail
+    return thumb ? thumb.replace('http://', 'https://') : null
+  } catch {
+    return null
+  }
+}
+
+async function fetchCover(book: Book): Promise<string | null> {
+  return await fetchCoverOpenLibrary(book) || await fetchCoverGoogleBooks(book)
 }
 
 function sleep(ms: number) {
