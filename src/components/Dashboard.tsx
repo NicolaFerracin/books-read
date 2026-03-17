@@ -13,11 +13,10 @@ interface Props {
   loading: boolean
   onEdit: (book: Book) => void
   onDelete: (id: string) => void
-  onUpdateProgress: (id: string, page: number) => void
   onAdd: () => void
 }
 
-export default function Dashboard({ books, allBooks, currentlyReading, selectedYear, loading, onEdit, onDelete, onUpdateProgress, onAdd }: Props) {
+export default function Dashboard({ books, allBooks, currentlyReading, selectedYear, loading, onEdit, onDelete, onAdd }: Props) {
   const [search, setSearch] = useState('')
   const [statusFilter, setStatusFilter] = useState('all')
   const [sortBy, setSortBy] = useState('date-desc')
@@ -106,7 +105,6 @@ export default function Dashboard({ books, allBooks, currentlyReading, selectedY
         <CurrentlyReading
           books={currentlyReading}
           onEdit={onEdit}
-          onUpdateProgress={onUpdateProgress}
         />
       )}
 

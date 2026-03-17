@@ -80,7 +80,6 @@ export default function App() {
           loading={booksLoading}
           onEdit={handleEdit}
           onDelete={remove}
-          onUpdateProgress={(id, page) => update(id, { currentPage: page })}
           onAdd={() => setShowForm(true)}
         />
       </main>

@@ -3,10 +3,9 @@ import type { Book } from '../types'
 interface Props {
   books: Book[]
   onEdit: (book: Book) => void
-  onUpdateProgress: (id: string, page: number) => void
 }
 
-export default function CurrentlyReading({ books, onEdit, onUpdateProgress }: Props) {
+export default function CurrentlyReading({ books, onEdit }: Props) {
   if (books.length === 0) return null
 
   return (
@@ -58,19 +57,6 @@ export default function CurrentlyReading({ books, onEdit, onUpdateProgress }: Pr
                   </div>
                 </div>
               </div>
-              {/* Quick progress slider */}
-              <input
-                type="range"
-                min={0}
-                max={book.pages}
-                value={book.currentPage || 0}
-                onClick={(e) => e.stopPropagation()}
-                onChange={(e) => {
-                  e.stopPropagation()
-                  onUpdateProgress(book.id, Number(e.target.value))
-                }}
-                className="w-full h-1 mt-3 appearance-none bg-transparent cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-blue-400 [&::-webkit-slider-runnable-track]:bg-slate-700 [&::-webkit-slider-runnable-track]:rounded-full [&::-webkit-slider-runnable-track]:h-1 opacity-0 group-hover:opacity-100 transition-opacity"
-              />
             </div>
           )
         })}
