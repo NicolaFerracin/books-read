@@ -1,5 +1,4 @@
 import type { Book } from '../types'
-import StarRating from './StarRating'
 
 const MONTHS = ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul', 'Aug', 'Sep', 'Oct', 'Nov', 'Dec']
 
@@ -56,15 +55,8 @@ export default function BookCard({ book, onEdit }: Props) {
             </span>
             <span className="text-slate-600 text-[10px]">{dateStr}</span>
           </div>
-
-          {book.rating ? (
-            <div className="mt-2">
-              <StarRating rating={book.rating} size="sm" />
-            </div>
-          ) : null}
         </div>
       </div>
-
     </div>
   )
 }

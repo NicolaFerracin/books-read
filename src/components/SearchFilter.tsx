@@ -45,7 +45,6 @@ export default function SearchFilter({ search, onSearchChange, statusFilter, onS
         <option value="date-desc">Newest first</option>
         <option value="date-asc">Oldest first</option>
         <option value="title">Title A-Z</option>
-        <option value="rating">Highest rated</option>
         <option value="pages-desc">Most pages</option>
       </select>
     </div>

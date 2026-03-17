@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useBookSearch } from '../hooks/useBookSearch'
 import { lookupByIsbn } from '../lib/openLibrary'
-import StarRating from './StarRating'
 import type { Book, BookFormData, OpenLibraryResult } from '../types'
 
 const MONTHS = [
@@ -47,7 +46,6 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
     if (book?.finishedIn) return Number(book.finishedIn.split('-')[1])
     return currentYear
   })
-  const [rating, setRating] = useState(book?.rating || 0)
   const [notes, setNotes] = useState(book?.notes || '')
   const [coverUrl, setCoverUrl] = useState(book?.coverUrl || '')
   const [isbn, setIsbn] = useState(book?.isbn || '')
@@ -112,7 +110,6 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
       status,
       startedIn: `${startMonth}-${startYear}`,
       finishedIn: status === 'finished' ? `${finishMonth}-${finishYear}` : undefined,
-      rating: rating || undefined,
       notes: notes.trim() || undefined,
       coverUrl: coverUrl || undefined,
       isbn: isbn || undefined,
@@ -310,14 +307,6 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
                   {years.map((y) => <option key={y} value={y}>{y}</option>)}
                 </select>
               </div>
-            </div>
-          )}
-
-          {/* Rating (for finished books) */}
-          {status === 'finished' && (
-            <div>
-              <label className={labelCls}>Rating</label>
-              <StarRating rating={rating} onChange={setRating} />
             </div>
           )}
 

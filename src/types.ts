@@ -6,7 +6,6 @@ export interface Book {
   finishedIn?: string // "MM-YYYY"
   pages: number
   status: 'started' | 'finished' | 'unfinished'
-  rating?: number // 1-5
   notes?: string
   coverUrl?: string
   isbn?: string

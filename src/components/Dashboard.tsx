@@ -1,6 +1,7 @@
 import { useState, useMemo } from 'react'
 import type { Book } from '../types'
 import Stats from './Stats'
+import Charts from './Charts'
 import BookCard from './BookCard'
 import SearchFilter from './SearchFilter'
 
@@ -39,9 +40,6 @@ export default function Dashboard({ books, allBooks, selectedYear, loading, onEd
         break
       case 'title':
         result.sort((a, b) => a.title.localeCompare(b.title))
-        break
-      case 'rating':
-        result.sort((a, b) => (b.rating || 0) - (a.rating || 0))
         break
       case 'pages-desc':
         result.sort((a, b) => (b.pages || 0) - (a.pages || 0))
@@ -97,6 +95,9 @@ export default function Dashboard({ books, allBooks, selectedYear, loading, onEd
 
       {/* Stats */}
       <Stats books={books} selectedYear={selectedYear} />
+
+      {/* Charts */}
+      <Charts books={books} selectedYear={selectedYear} />
 
       {/* Search & Filter */}
       <SearchFilter
