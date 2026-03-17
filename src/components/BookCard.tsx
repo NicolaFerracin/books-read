@@ -12,16 +12,12 @@ const STATUS_CONFIG = {
 interface Props {
   book: Book
   onEdit: (book: Book) => void
-  onUpdateProgress?: (id: string, page: number) => void
 }
 
-export default function BookCard({ book, onEdit, onUpdateProgress }: Props) {
+export default function BookCard({ book, onEdit }: Props) {
   const [month, year] = book.startedIn.split('-')
   const dateStr = `${MONTHS[Number(month)]} ${year}`
   const status = STATUS_CONFIG[book.status]
-  const progress = book.status === 'started' && book.currentPage && book.pages
-    ? Math.min(Math.round((book.currentPage / book.pages) * 100), 100)
-    : book.status === 'finished' ? 100 : 0
 
   return (
     <div
@@ -69,37 +65,6 @@ export default function BookCard({ book, onEdit, onUpdateProgress }: Props) {
         </div>
       </div>
 
-      {/* Progress bar for currently reading */}
-      {book.status === 'started' && (
-        <div className="px-4 pb-3">
-          <div className="flex items-center justify-between text-[10px] text-slate-500 mb-1">
-            <span>
-              {book.currentPage || 0} / {book.pages} pages
-            </span>
-            <span>{progress}%</span>
-          </div>
-          <div className="h-1 bg-slate-800 rounded-full overflow-hidden">
-            <div
-              className="h-full bg-gradient-to-r from-amber-500 to-amber-400 rounded-full animate-grow"
-              style={{ width: `${progress}%` }}
-            />
-          </div>
-          {onUpdateProgress && (
-            <input
-              type="range"
-              min={0}
-              max={book.pages}
-              value={book.currentPage || 0}
-              onClick={(e) => e.stopPropagation()}
-              onChange={(e) => {
-                e.stopPropagation()
-                onUpdateProgress(book.id, Number(e.target.value))
-              }}
-              className="w-full h-1 mt-1 appearance-none bg-transparent cursor-pointer [&::-webkit-slider-thumb]:appearance-none [&::-webkit-slider-thumb]:w-3 [&::-webkit-slider-thumb]:h-3 [&::-webkit-slider-thumb]:rounded-full [&::-webkit-slider-thumb]:bg-amber-400 opacity-0 group-hover:opacity-100 transition-opacity"
-            />
-          )}
-        </div>
-      )}
     </div>
   )
 }

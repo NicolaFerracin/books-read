@@ -132,7 +132,6 @@ export default function Dashboard({ books, allBooks, currentlyReading, selectedY
               key={book.id}
               book={book}
               onEdit={onEdit}
-              onUpdateProgress={onUpdateProgress}
             />
           ))}
         </div>
