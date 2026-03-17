@@ -19,12 +19,6 @@ import {
   query,
   where,
 } from 'firebase/firestore'
-import {
-  getStorage,
-  ref,
-  uploadBytes,
-  getDownloadURL,
-} from 'firebase/storage'
 import type { Book, BookFormData, YearGoal } from '../types'
 
 const config = {
@@ -40,8 +34,6 @@ const config = {
 const app = initializeApp(config)
 const auth = getAuth(app)
 const db = getFirestore(app)
-const storage = getStorage(app)
-
 const BOOKS_COLLECTION = 'books'
 const GOALS_COLLECTION = 'reading_goals'
 
@@ -86,17 +78,6 @@ export const editBook = async (id: string, book: Partial<BookFormData>) => {
 
 export const deleteBook = async (id: string) => {
   return deleteDoc(doc(db, BOOKS_COLLECTION, id))
-}
-
-// Cover upload
-export const uploadCover = async (file: File): Promise<string> => {
-  const uid = getUserId()
-  if (!uid) throw new Error('Not authenticated')
-  const ext = file.name.split('.').pop() || 'jpg'
-  const path = `covers/${uid}/${Date.now()}.${ext}`
-  const storageRef = ref(storage, path)
-  await uploadBytes(storageRef, file)
-  return getDownloadURL(storageRef)
 }
 
 // Reading Goals

@@ -1,7 +1,6 @@
 import { useState, useEffect, useRef } from 'react'
 import { useBookSearch } from '../hooks/useBookSearch'
 import { lookupByIsbn } from '../lib/openLibrary'
-import { uploadCover } from '../lib/firebase'
 import StarRating from './StarRating'
 import type { Book, BookFormData, OpenLibraryResult } from '../types'
 
@@ -54,26 +53,11 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
   const [isbn, setIsbn] = useState(book?.isbn || '')
   const [saving, setSaving] = useState(false)
   const [confirmDelete, setConfirmDelete] = useState(false)
-  const [uploading, setUploading] = useState(false)
-  const fileInputRef = useRef<HTMLInputElement>(null)
 
   const { results, searching, search, clear } = useBookSearch()
   const [showResults, setShowResults] = useState(false)
   const [isbnLooking, setIsbnLooking] = useState(false)
   const isbnTimeout = useRef<ReturnType<typeof setTimeout>>()
-
-  const handleCoverUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-    const file = e.target.files?.[0]
-    if (!file) return
-    setUploading(true)
-    try {
-      const url = await uploadCover(file)
-      setCoverUrl(url)
-    } catch (err) {
-      console.error('Upload failed:', err)
-    }
-    setUploading(false)
-  }
 
   // Generate year options
   const years: number[] = []
@@ -167,12 +151,9 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
         </div>
 
         <form onSubmit={handleSubmit} className="p-5 space-y-4">
-          {/* Cover preview + upload */}
+          {/* Cover preview + URL */}
           <div className="flex items-center gap-4">
-            <div
-              onClick={() => fileInputRef.current?.click()}
-              className="flex-shrink-0 w-20 h-28 rounded-lg overflow-hidden bg-slate-800 cursor-pointer hover:bg-slate-700 transition-colors relative group"
-            >
+            <div className="flex-shrink-0 w-20 h-28 rounded-lg overflow-hidden bg-slate-800">
               {coverUrl ? (
                 <img src={coverUrl} alt="" className="w-full h-full object-cover" />
               ) : (
@@ -182,24 +163,16 @@ export default function BookFormModal({ book, onSave, onClose, onDelete }: Props
                   </svg>
                 </div>
               )}
-              {uploading && (
-                <div className="absolute inset-0 bg-black/60 flex items-center justify-center">
-                  <div className="w-5 h-5 border-2 border-slate-600 border-t-amber-400 rounded-full animate-spin" />
-                </div>
-              )}
-              <div className="absolute inset-0 bg-black/40 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                <span className="text-white text-[10px] font-medium">{coverUrl ? 'Change' : 'Upload'}</span>
-              </div>
             </div>
-            <input
-              ref={fileInputRef}
-              type="file"
-              accept="image/*"
-              onChange={handleCoverUpload}
-              className="hidden"
-            />
-            <div className="text-xs text-slate-600">
-              Click to upload a cover image, or fill in the ISBN / title to auto-fetch one.
+            <div className="flex-1">
+              <label className={labelCls}>Cover image URL</label>
+              <input
+                type="url"
+                value={coverUrl}
+                onChange={(e) => setCoverUrl(e.target.value)}
+                className={inputCls}
+                placeholder="Paste an image URL..."
+              />
             </div>
           </div>
 
